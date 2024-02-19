@@ -13,4 +13,7 @@ export class PizzaSizeEntity {
 
   @Column({ default: true })
   status: boolean;
+
+  @ManyToOne(() => OrderEntity, (order) => order.pizzaType)
+  orders: OrderEntity[];
 }

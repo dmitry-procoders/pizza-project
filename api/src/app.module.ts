@@ -1,3 +1,4 @@
+import { OrderModule } from './order/order.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -5,6 +6,7 @@ import { PizzaModule } from './pizza/pizza.module';
 
 @Module({
   imports: [
+    OrderModule,
     PizzaModule,
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
