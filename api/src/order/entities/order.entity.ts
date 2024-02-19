@@ -9,8 +9,10 @@ import {
   Index,
   OneToMany,
   ManyToMany,
+  OneToOne,
 } from 'typeorm';
-import { OrderStatus } from '../constants/statuses';
+import { OrderStatuses } from '../constants/order-statuses';
+import { KitchenEntity } from 'src/kitchen/entities/kitchen.entity';
 
 @Entity()
 export class OrderEntity {
@@ -31,7 +33,7 @@ export class OrderEntity {
   createdAt: Date;
 
   @Column({ length: 50 })
-  status: OrderStatus;
+  status: OrderStatuses;
 
   @OneToMany(() => PizzaTypeEntity, (pizzaType) => pizzaType.orders, {
     cascade: true,
@@ -49,4 +51,7 @@ export class OrderEntity {
     { cascade: true },
   )
   pizzaExtraComponents: PizzaExtraComponentEntity[];
+
+  @OneToOne(() => KitchenEntity, (kitchen) => kitchen.order)
+  kitchen: KitchenEntity;
 }

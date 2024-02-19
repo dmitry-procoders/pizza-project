@@ -21,7 +21,9 @@ export class OrderController {
   }
 
   @Post()
-  async placeOrder(@Body() createOrderDto: CreateOrderDto): Promise<OrderEntity> {
+  async placeOrder(
+    @Body() createOrderDto: CreateOrderDto,
+  ): Promise<OrderEntity> {
     return await this.service.placeOrder(createOrderDto);
   }
 

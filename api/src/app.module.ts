@@ -1,3 +1,4 @@
+import { KitchenModule } from './kitchen/kitchen.module';
 import { OrderModule } from './order/order.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -6,6 +7,7 @@ import { PizzaModule } from './pizza/pizza.module';
 
 @Module({
   imports: [
+    KitchenModule,
     OrderModule,
     PizzaModule,
     ConfigModule.forRoot(),

@@ -1,4 +1,4 @@
-export enum OrderStatus {
+export enum OrderStatuses {
   Pending = 'PENDING',
   AwaitingBilling = 'AWAITING_BILLING',
   Cancelled = 'CANCELLED',

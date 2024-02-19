@@ -1,23 +1,30 @@
+import { OrderEntity } from 'src/order/entities/order.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToOne,
   PrimaryGeneratedColumn,
-  Index,
 } from 'typeorm';
+import { KitchenStatuses } from '../constants/kitchen-statuses';
 
 @Entity()
-export class Kitchen {
+export class KitchenEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 255 })
-  name: string;
+  @Column({ length: 20 })
+  status: KitchenStatuses;
 
-  @Column({ length: 255 })
-  phone: string;
+  @CreateDateColumn({
+    type: 'timestamp with time zone',
+    default: () => 'NOW()',
+  })
+  createdAt: Date;
 
   @CreateDateColumn({ type: 'timestamp with time zone' })
-  @Index()
-  createdAt: Date;
+  finishedAt: Date;
+
+  @OneToOne(() => OrderEntity, (order) => order.kitchen)
+  order: OrderEntity;
 }

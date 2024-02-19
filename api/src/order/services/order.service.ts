@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OrderEntity } from '../entities/order.entity';
 import { CreateOrderDto } from '../dto/create-order.dto';
-import { OrderStatus } from './../constants/statuses';
+import { OrderStatuses } from '../constants/order-statuses';
 
 /**
  * Service responsible for managing orders.
@@ -41,10 +41,10 @@ export class OrderService {
    */
   async completeOrder(id: number): Promise<void> {
     const order = await this.getOrder(id);
-    if (order.status !== OrderStatus.Delivery) {
+    if (order.status !== OrderStatuses.Delivery) {
       throw new Error('Order must be in "Delivery" status to be completed');
     }
-    await this.repository.update(id, { status: OrderStatus.Completed });
+    await this.repository.update(id, { status: OrderStatuses.Completed });
   }
 
   /**
@@ -55,10 +55,13 @@ export class OrderService {
    */
   async cancelOrder(id: number): Promise<void> {
     const order = await this.getOrder(id);
-    const correctStatuses = [OrderStatus.Delivery, OrderStatus.AwaitingBilling];
+    const correctStatuses = [
+      OrderStatuses.Delivery,
+      OrderStatuses.AwaitingBilling,
+    ];
     if (!correctStatuses.includes(order.status)) {
       throw new Error('Order must be in "Delivery" status to be completed');
     }
-    await this.repository.update(id, { status: OrderStatus.Cancelled });
+    await this.repository.update(id, { status: OrderStatuses.Cancelled });
   }
 }
