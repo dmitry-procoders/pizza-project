@@ -1,44 +1,55 @@
 # Pizza Delivery Service Architecture Overview
 
-## Introduction
-The architecture of the pizza delivery service is designed for scalability and modularity, addressing specific functionalities for efficient operation. It incorporates two primary components: front-end applications and a back-end API.
+## Architecture Overview
 
-## Front-End Applications
-Developed using the React framework, the system includes two distinct front-end applications:
+The architecture of the pizza delivery service is designed to be both scalable and modular, catering to the specific functionalities required for efficient operation. This system architecture is structured around two main components: the front-end applications and the back-end API.
 
-- **Customer Order Application**: A user-friendly interface for customers to place orders, browse the menu, customize orders, make payments, and track delivery status.
-- **Kitchen Application**: Designed for kitchen staff to manage and update the status of orders.
+### Front-End Applications
 
-React's efficiency in building interactive UIs, its component-based architecture, and a wide ecosystem support rapid development and maintenance.
+The system features two front-end applications, both developed using the React framework. React is chosen for its efficiency in building interactive user interfaces, its component-based architecture, and its wide ecosystem, which supports rapid development and maintenance. The two applications likely serve distinct user roles:
 
-## Back-End API
-The API, built with the NestJS framework, emphasizes scalability, TypeScript's reliability, and efficient asynchronous operation handling. It's crucial for real-time data processing in delivery services. The API's modular structure comprises several key modules:
+- **Customer Order Application**: Designed for the end-users who place orders. It provides a user-friendly interface for menu browsing, order customization, payment, and tracking delivery status.
 
-- **Order Module**: Handles order placements, updates, and status tracking, interfacing with Pizza and Billing modules.
-- **Kitchen Module**: Manages the preparation of orders, communicating with the Order module for updates.
-- **Pizza Module**: Responsible for menu management, ensuring up-to-date and accurate information is displayed in the customer application.
-- **Delivery Module**: Oversees the assignment of delivery personnel and tracks deliveries to ensure timely arrivals.
-- **Billing Module**: Manages payment processing, including invoice generation and payment tracking.
+- **Kitchen Application**: Intended for the kitchen staff, enabling them to manage orders, update kitchen statuses.
 
-Each module consists of controllers, services, and entities for the TypeORM database, promoting a clear separation of concerns and codebase maintainability.
+### Back-End API
 
-## Architecture Benefits
-This architecture facilitates efficient development and future expansion. Its modular approach allows for easy updates and new feature additions without disrupting existing functionalities, making it suitable for the dynamic needs of a pizza delivery service.
+The back-end functionality is handled by an API developed with the NestJS framework. NestJS is selected for its scalability, its use of TypeScript (enhancing code reliability and maintainability), and its efficient handling of asynchronous operations, which is crucial for real-time data processing in a delivery service. The API is designed with a modular structure, comprising the following key modules:
 
-# State Machine Description
+- **Order Module**: Manages order placements, updates, and status tracking. It interfaces with the Pizza and Billing modules to process orders and handle payments.
 
-## Overview
-The state machine describes the lifecycle of an order from receipt to completion or cancellation.
+- **Kitchen Module**: Oversees the preparation of orders, from dough preparation to baking. It communicates with the Order module to receive preparation requests and updates the order status accordingly.
 
-## States
+- **Pizza Module**: Responsible for menu management, including pizza options, ingredients, and customization features. This module ensures that the customer application displays up-to-date and accurate menu information.
 
-- **Pending**: The initial state post-order receipt, awaiting online payment initiation.
-- **Awaiting Billing**: Indicates waiting for customer payment completion if not done immediately.
-- **Cancelled**: Orders move here if not paid within 30 minutes or if the customer refuses acceptance upon delivery.
-- **Confirmed**: Marks the successful payment and official acceptance of the order for preparation.
-- **Preparing**: The phase of making the pizza, including all preparation steps.
-- **Ready for Pickup**: Indicates the pizza is ready for delivery personnel.
-- **Delivery**: The order is being delivered to the customer's location.
-- **Completed**: Final state upon customer acceptance, concluding the transaction successfully.
+- **Delivery Module**: Handles the assignment of delivery personnel, tracking of deliveries, and status updates to ensure timely delivery to customers. It interacts with the Order module to fetch delivery details.
 
-Each state represents a specific phase in the delivery process, aiding in efficient order management.
+- **Billing Module**: Manages payment processing, including invoice generation, payment tracking, and confirmation of payment status. It works closely with the Order module to secure order payments.
+
+Each module in the NestJS API consists of controllers, services, and entities for the TypeORM database, facilitating a clear separation of concerns and enhancing the maintainability of the codebase. Controllers handle incoming requests and responses, services contain the business logic, and entities define the database models.
+
+This architecture supports efficient development and future expansion. The modular approach allows for easy updates and addition of new features without disrupting the existing system functionality, making it well-suited for the dynamic requirements of a pizza delivery service.
+
+## State Machine
+
+The state machine for a pizza delivery service can be described through a series of states from the moment an order is received until it is either completed or cancelled. Here's a brief description of each state in the process:
+
+- **Pending**: This is the initial state of an order when it is first received. At this point, the order has been placed but not yet paid for online. The system awaits payment initiation from the customer.
+
+- **Awaiting Billing**: If the customer chooses not to pay online immediately, the order transitions to this state. The system is waiting for the customer to complete the payment. This state underscores the necessity for timely payment to proceed with the order preparation.
+
+- **Cancelled**: An order moves to this state under two conditions:
+  - If the customer does not complete the payment within 30 minutes of the order being placed and being in the "Awaiting Billing" state.
+  - If the customer refuses to accept the order upon delivery, indicating a rejection of the transaction or delivery issues.
+
+- **Confirmed**: Once the customer completes the payment within the specified 30-minute window, the order status is updated to "Confirmed." This state indicates that the payment has been successfully processed, and the order is officially accepted for preparation.
+
+- **Preparing**: Following confirmation, the order enters the "Preparing" state, where the pizza is being made. This includes all steps of preparation, from dough stretching to topping application and baking.
+
+- **Ready for Pickup**: After the pizza is prepared, the order status is updated to "Ready for Pickup." This state indicates that the pizza is ready to be handed off to the delivery personnel. It is the transitional phase before the delivery process begins.
+
+- **Delivery**: The order is in the "Delivery" state when it is out for delivery to the customer's location. This state encompasses the journey of the pizza from the store to the customer's doorstep.
+
+- **Completed**: If the customer accepts the order upon delivery, it is moved to the "Completed" state. This indicates that the transaction has been successfully finalized, and the delivery process is concluded satisfactorily.
+
+Each state in this machine represents a specific phase in the pizza delivery process, providing clear indicators of progress and facilitating efficient management of orders from receipt to completion or cancellation.
