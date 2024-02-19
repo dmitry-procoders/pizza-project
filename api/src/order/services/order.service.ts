@@ -34,6 +34,23 @@ export class OrderService {
   }
 
   /**
+   * Confirms an order by updating its status to "Confirmed".
+   * @param id - The ID of the order to complete.
+   * @throws {Error} Will throw an error if the order's current status is not "Delivery".
+   * @returns A promise that resolves when the order is completed.
+   */
+  async confirmOrder(id: number): Promise<void> {
+    const order = await this.getOrder(id);
+    const correctStatus = order.isBilledOnline
+      ? OrderStatuses.AwaitingBilling
+      : OrderStatuses.Pending;
+    if (order.status === correctStatus) {
+      throw new Error('Order must be in "Delivery" status to be completed');
+    }
+    await this.repository.update(id, { status: OrderStatuses.Completed });
+  }
+
+  /**
    * Completes an order by updating its status to "Completed".
    * @param id - The ID of the order to complete.
    * @throws {Error} Will throw an error if the order's current status is not "Delivery".

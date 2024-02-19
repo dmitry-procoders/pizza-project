@@ -1,3 +1,5 @@
+import { BillingModule } from './billing/billing.module';
+import { DeliveryModule } from './delivery/delivery.module';
 import { KitchenModule } from './kitchen/kitchen.module';
 import { OrderModule } from './order/order.module';
 import { Module } from '@nestjs/common';
@@ -7,6 +9,8 @@ import { PizzaModule } from './pizza/pizza.module';
 
 @Module({
   imports: [
+    BillingModule,
+    DeliveryModule,
     KitchenModule,
     OrderModule,
     PizzaModule,
