@@ -13,6 +13,7 @@ import {
 } from 'typeorm';
 import { OrderStatuses } from '../constants/order-statuses';
 import { KitchenEntity } from 'src/kitchen/entities/kitchen.entity';
+import { DeliveryEntity } from 'src/delivery/entities/delivery.entity';
 
 @Entity()
 export class OrderEntity {
@@ -54,4 +55,7 @@ export class OrderEntity {
 
   @OneToOne(() => KitchenEntity, (kitchen) => kitchen.order)
   kitchen: KitchenEntity;
+
+  @OneToOne(() => DeliveryEntity, (delivery) => delivery.order)
+  delivery: DeliveryEntity;
 }
