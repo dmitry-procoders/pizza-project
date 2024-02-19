@@ -2,7 +2,7 @@ import { OrderEntity } from 'src/order/entities/order.entity';
 import { Entity, PrimaryGeneratedColumn, OneToOne, Column } from 'typeorm';
 import { DeliveryStatuses } from '../constants/delivery-statuses';
 
-@Entity()
+@Entity('delivery')
 export class DeliveryEntity {
   @PrimaryGeneratedColumn()
   id: number;
