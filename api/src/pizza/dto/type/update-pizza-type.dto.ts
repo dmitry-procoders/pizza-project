@@ -21,6 +21,11 @@ export class UpdatePizzaTypeDto {
   description: string;
 
   @IsOptional()
+  @IsString()
+  @MaxLength(255)
+  image: string;
+
+  @IsOptional()
   @IsBoolean()
   status: boolean;
 }
