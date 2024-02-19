@@ -4,6 +4,8 @@
 
 The architecture of the pizza delivery service is designed to be both scalable and modular, catering to the specific functionalities required for efficient operation. This system architecture is structured around two main components: the front-end applications and the back-end API.
 
+![Pizza](images/SystemDesign.png "Architecture Overview")
+
 ### Front-End Applications
 
 The system features two front-end applications, both developed using the React framework. React is chosen for its efficiency in building interactive user interfaces, its component-based architecture, and its wide ecosystem, which supports rapid development and maintenance. The two applications likely serve distinct user roles:
@@ -33,6 +35,8 @@ This architecture supports efficient development and future expansion. The modul
 ## State Machine
 
 The state machine for a pizza delivery service can be described through a series of states from the moment an order is received until it is either completed or cancelled. Here's a brief description of each state in the process:
+
+![Pizza](images/StateMachine.png "State Machine")
 
 - **Pending**: This is the initial state of an order when it is first received. At this point, the order has been placed but not yet paid for online. The system awaits payment initiation from the customer.
 
