@@ -15,10 +15,14 @@ export class DeliveryService {
   ) {}
 
   async getDeliveryOrder(id: number): Promise<DeliveryEntity> {
-    return await this.repository.findOneOrFail({
+    const delivery = await this.repository.findOneOrFail({
       where: { id },
       relations: ['order'],
     });
+    if (delivery.order.status !== OrderStatuses.Delivery) {
+      throw new Error('Order is not in delivering status');
+    }
+    return delivery;
   }
 
   async getOrdersReadyForDelivery(): Promise<DeliveryEntity[]> {
@@ -50,7 +54,6 @@ export class DeliveryService {
       status: DeliveryStatuses.Delivering,
       finishedAt: new Date(),
     });
-    // close order
     if (status === OrderStatuses.Completed) {
       await this.orderService.completeOrder(delivery.order.id);
     } else {
