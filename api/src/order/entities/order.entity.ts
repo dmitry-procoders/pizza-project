@@ -26,6 +26,9 @@ export class OrderEntity {
   @Column({ length: 255 })
   phone: string;
 
+  @Column()
+  isBilledOnline: boolean;
+
   @CreateDateColumn({
     type: 'timestamp with time zone',
     default: () => 'NOW()',
