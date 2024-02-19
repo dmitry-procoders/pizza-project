@@ -1,5 +1,5 @@
-import { OrderEntity } from 'src/order/entities/order.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { OrderEntity } from 'src/order/entities/order.entity';
 
 @Entity()
 export class PizzaTypeEntity {
