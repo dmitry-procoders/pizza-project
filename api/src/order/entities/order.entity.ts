@@ -10,12 +10,13 @@ import {
   OneToMany,
   ManyToMany,
   OneToOne,
+  JoinTable,
 } from 'typeorm';
 import { OrderStatuses } from '../constants/order-statuses';
 import { KitchenEntity } from 'src/kitchen/entities/kitchen.entity';
 import { DeliveryEntity } from 'src/delivery/entities/delivery.entity';
 
-@Entity()
+@Entity('order')
 export class OrderEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -54,6 +55,9 @@ export class OrderEntity {
     (pizzaExtraComponent) => pizzaExtraComponent.orders,
     { cascade: true },
   )
+  @JoinTable({
+    name: 'order_pizza_extra_components',
+  })
   pizzaExtraComponents: PizzaExtraComponentEntity[];
 
   @OneToOne(() => KitchenEntity, (kitchen) => kitchen.order)
