@@ -10,6 +10,7 @@ import {
   OneToMany,
   ManyToMany,
 } from 'typeorm';
+import { OrderStatus } from '../constants/statuses';
 
 @Entity()
 export class OrderEntity {
@@ -22,9 +23,15 @@ export class OrderEntity {
   @Column({ length: 255 })
   phone: string;
 
-  @CreateDateColumn({ type: 'timestamp with time zone' })
+  @CreateDateColumn({
+    type: 'timestamp with time zone',
+    default: () => 'NOW()',
+  })
   @Index()
   createdAt: Date;
+
+  @Column({ length: 50 })
+  status: OrderStatus;
 
   @OneToMany(() => PizzaTypeEntity, (pizzaType) => pizzaType.orders, {
     cascade: true,
