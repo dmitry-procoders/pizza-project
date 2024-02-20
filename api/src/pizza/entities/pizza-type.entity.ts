@@ -1,5 +1,5 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { OrderEntity } from 'src/order/entities/order.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { OrderItemEntity } from 'src/order/entities/order-item.entity';
 
 @Entity('pizza_type')
 export class PizzaTypeEntity {
@@ -18,6 +18,6 @@ export class PizzaTypeEntity {
   @Column({ default: true })
   status: boolean;
 
-  @ManyToOne(() => OrderEntity, (order) => order.pizzaType)
-  orders: OrderEntity[];
+  @OneToMany(() => OrderItemEntity, (orderItem) => orderItem.pizzaType)
+  orderItems: OrderItemEntity[];
 }

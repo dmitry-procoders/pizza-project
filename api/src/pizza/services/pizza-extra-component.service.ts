@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
-import { PizzaTypeEntity } from '../entities/pizza-type.entity';
+import { PizzaExtraComponentEntity } from '../entities/pizza-extra-component.entity';
 
 @Injectable()
-export class PizzaExtraComponentService extends TypeOrmCrudService<PizzaTypeEntity> {
+export class PizzaExtraComponentService {
   constructor(
-    @InjectRepository(PizzaTypeEntity) repository: Repository<PizzaTypeEntity>,
-  ) {
-    super(repository);
+    @InjectRepository(PizzaExtraComponentEntity)
+    private repository: Repository<PizzaExtraComponentEntity>,
+  ) {}
+
+  async getList(): Promise<PizzaExtraComponentEntity[]> {
+    return await this.repository.find();
   }
 }

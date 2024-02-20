@@ -1,20 +1,16 @@
-import { PizzaExtraComponentEntity } from 'src/pizza/entities/pizza-extra-component.entity';
-import { PizzaSizeEntity } from 'src/pizza/entities/pizza-size.entity';
-import { PizzaTypeEntity } from 'src/pizza/entities/pizza-type.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   Index,
-  OneToMany,
-  ManyToMany,
   OneToOne,
-  JoinTable,
+  OneToMany,
 } from 'typeorm';
 import { OrderStatuses } from '../constants/order-statuses';
 import { KitchenEntity } from 'src/kitchen/entities/kitchen.entity';
 import { DeliveryEntity } from 'src/delivery/entities/delivery.entity';
+import { OrderItemEntity } from './order-item.entity';
 
 @Entity('order')
 export class OrderEntity {
@@ -26,6 +22,9 @@ export class OrderEntity {
 
   @Column({ length: 255 })
   phone: string;
+
+  @Column({ length: 255 })
+  address: string;
 
   @Column()
   isBilledOnline: boolean;
@@ -40,25 +39,8 @@ export class OrderEntity {
   @Column({ length: 50 })
   status: OrderStatuses;
 
-  @OneToMany(() => PizzaTypeEntity, (pizzaType) => pizzaType.orders, {
-    cascade: true,
-  })
-  pizzaType: PizzaTypeEntity;
-
-  @OneToMany(() => PizzaSizeEntity, (pizzaSize) => pizzaSize.orders, {
-    cascade: true,
-  })
-  pizzaSize: PizzaSizeEntity;
-
-  @ManyToMany(
-    () => PizzaExtraComponentEntity,
-    (pizzaExtraComponent) => pizzaExtraComponent.orders,
-    { cascade: true },
-  )
-  @JoinTable({
-    name: 'order_pizza_extra_components',
-  })
-  pizzaExtraComponents: PizzaExtraComponentEntity[];
+  @OneToMany(() => OrderItemEntity, (orderItem) => orderItem.order)
+  items: OrderItemEntity[];
 
   @OneToOne(() => KitchenEntity, (kitchen) => kitchen.order)
   kitchen: KitchenEntity;

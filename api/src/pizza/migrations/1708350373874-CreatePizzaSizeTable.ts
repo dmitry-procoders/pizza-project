@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class PizzaSizeMigration1627567894113 implements MigrationInterface {
+export class PizzaSizeMigration1708350373874 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -31,6 +31,17 @@ export class PizzaSizeMigration1627567894113 implements MigrationInterface {
       }),
       true,
     );
+
+    await queryRunner.manager
+      .createQueryBuilder()
+      .insert()
+      .into('pizza_size')
+      .values([
+        { value: 'Small', description: 'Small size pizza', status: true },
+        { value: 'Medium', description: 'Medium size pizza', status: true },
+        { value: 'Large', description: 'Large size pizza', status: true },
+      ])
+      .execute();
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

@@ -11,10 +11,10 @@ export class CreateOrderPizzaExtraComponentTable1708351846090
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'order_pizza_extra_components',
+        name: 'order_item_pizza_extra_components',
         columns: [
           {
-            name: 'orderId',
+            name: 'orderItemId',
             type: 'int',
             isPrimary: true,
           },
@@ -27,11 +27,11 @@ export class CreateOrderPizzaExtraComponentTable1708351846090
       }),
     );
 
-    await queryRunner.createForeignKeys('order_pizza_extra_components', [
+    await queryRunner.createForeignKeys('order_item_pizza_extra_components', [
       new TableForeignKey({
-        columnNames: ['orderId'],
+        columnNames: ['orderItemId'],
         referencedColumnNames: ['id'],
-        referencedTableName: 'order',
+        referencedTableName: 'order-item',
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       }),
@@ -46,6 +46,6 @@ export class CreateOrderPizzaExtraComponentTable1708351846090
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('order_pizza_extra_components');
+    await queryRunner.dropTable('order_item_pizza_extra_components');
   }
 }

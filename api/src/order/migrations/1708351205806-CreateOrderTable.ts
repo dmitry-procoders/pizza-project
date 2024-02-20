@@ -29,6 +29,11 @@ export class CreateOrderTable1708351205812 implements MigrationInterface {
             length: '255',
           },
           {
+            name: 'address',
+            type: 'varchar',
+            length: '255',
+          },
+          {
             name: 'isBilledOnline',
             type: 'boolean',
           },
@@ -42,35 +47,10 @@ export class CreateOrderTable1708351205812 implements MigrationInterface {
             type: 'varchar',
             length: '50',
           },
-          {
-            name: 'pizzaSizeId',
-            type: 'int',
-          },
-          {
-            name: 'pizzaTypeId',
-            type: 'int',
-          },
         ],
       }),
       true,
     );
-
-    await queryRunner.createForeignKeys('order', [
-      new TableForeignKey({
-        columnNames: ['pizzaSizeId'],
-        referencedColumnNames: ['id'],
-        referencedTableName: 'pizza_size',
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      }),
-      new TableForeignKey({
-        columnNames: ['pizzaTypeId'],
-        referencedColumnNames: ['id'],
-        referencedTableName: 'pizza_type',
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      }),
-    ]);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
