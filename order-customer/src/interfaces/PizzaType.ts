@@ -1,5 +1,5 @@
 export interface PizzaType {
-  id: string;
+  id: number;
   value: string;
   description: string;
   image: string;

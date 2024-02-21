@@ -1,5 +1,5 @@
 export interface PizzaSize {
-  id: string;
+  id: number;
   value: string;
   description: string;
 }

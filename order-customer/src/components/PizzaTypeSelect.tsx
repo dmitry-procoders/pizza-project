@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import { fetchTypesData } from '@/plugins/api-client';
 import { PizzaType } from '@/interfaces/PizzaType';
+import '@/layouts/global.css';
 
 interface PizzaTypeOption {
-  id: string;
+  id: number;
   value: string;
 }
 
@@ -14,12 +15,11 @@ interface PizzaTypeSelectProps {
 
 const PizzaSizeSelect: React.FC<PizzaTypeSelectProps> = ({ onSelect }) => {
   const { isLoading, isError, data } = useQuery('pizza-types', fetchTypesData);
-  const [selectedType, setSelectedType] = useState<string>('');
+  const [selectedType, setSelectedType] = useState<number>();
 
-  const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newType = event.target.value;
+  const handleTypeChange = (newType: number) => {
     setSelectedType(newType);
-    const selectedType = data.find((type: PizzaType) => type.id.toString() === newType);
+    const selectedType = data.find((type: PizzaType) => type.id === newType);
     onSelect(selectedType);
   };
 
@@ -32,14 +32,20 @@ const PizzaSizeSelect: React.FC<PizzaTypeSelectProps> = ({ onSelect }) => {
   }
 
   return (
-    <select value={selectedType} onChange={handleTypeChange}>
-      <option value="">Select Type</option>
-      {data.map((option: PizzaTypeOption) => (
-        <option key={option.id} value={option.id}>
-          {option.value}
-        </option>
-      ))}
-    </select>
+    <div className="flex flex-col space-y-2">
+      <label>Select Pizza Type:</label>
+      <div className="flex space-x-2">
+        {data.map((option: PizzaTypeOption) => (
+          <span
+            key={option.id}
+            className={`cursor-pointer py-2 px-4 rounded text-sm font-semibold tracking-wider h-10 ${selectedType === option.id ? 'highlight bg-white border border-black' : 'bg-black text-white'}`}
+            onClick={() => handleTypeChange(option.id)}
+          >
+            {option.value}
+          </span>
+        ))}
+      </div>
+    </div>
   );
 };
 

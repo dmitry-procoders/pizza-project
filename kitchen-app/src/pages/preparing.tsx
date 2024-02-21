@@ -80,18 +80,18 @@ export default function OrdersForPickUp() {
     <main>
       <div>
         <h1>Orders preparing now</h1>
-        <div style={{ height: 400, width: '100%' }}>
-        <DataGrid
-          rows={data}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 10 },
-            },
-          }}
-          pageSizeOptions={[5, 10]}
-        />
-    </div>
+        <div style={{ height: '80vh', minHeight: 400, width: '100%' }}>
+          <DataGrid
+            rows={data}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 10 },
+              },
+            }}
+            pageSizeOptions={[5, 10]}
+          />
+      </div>
       </div>
     </main>
   );

@@ -4,7 +4,7 @@ import { fetchSizesData } from '@/plugins/api-client';
 import { PizzaSize } from '@/interfaces/PizzaSize';
 
 interface PizzaSizeOption {
-  id: string;
+  id: number;
   value: string;
 }
 
@@ -14,12 +14,11 @@ interface PizzaSizeSelectProps {
 
 const PizzaSizeSelect: React.FC<PizzaSizeSelectProps> = ({ onSelect }) => {
   const { isLoading, isError, data } = useQuery('pizza-sizes', fetchSizesData);
-  const [selectedSize, setSelectedSize] = useState<string>('');
+  const [selectedSize, setSelectedSize] = useState<number>();
 
-  const handleSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newSize = event.target.value;
+  const handleSizeChange = (newSize: number) => {
     setSelectedSize(newSize);
-    const selectedSize = data.find((size: PizzaSize) => size.id.toString() === newSize);
+    const selectedSize = data.find((size: PizzaSize) => size.id === newSize);
     onSelect(selectedSize);
   };
 
@@ -32,14 +31,20 @@ const PizzaSizeSelect: React.FC<PizzaSizeSelectProps> = ({ onSelect }) => {
   }
 
   return (
-    <select value={selectedSize} onChange={handleSizeChange}>
-      <option value="">Select Size</option>
-      {data.map((option: PizzaSizeOption) => (
-        <option key={option.id} value={option.id}>
-          {option.value}
-        </option>
-      ))}
-    </select>
+    <div className="flex flex-col space-y-2">
+      <label>Select Pizza Size:</label>
+      <div className="flex space-x-2">
+        {data.map((option: PizzaSizeOption) => (
+          <span
+            key={option.id}
+            className={`cursor-pointer py-2 px-4 rounded text-sm font-semibold tracking-wider h-10 ${selectedSize === option.id ? 'highlight bg-white border border-black' : 'bg-black text-white'}`}
+            onClick={() => handleSizeChange(option.id)}
+          >
+            {option.value}
+          </span>
+        ))}
+      </div>
+    </div>
   );
 };
 

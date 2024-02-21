@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+import Layout from '@/layouts/layout';
 import { Provider } from 'react-redux';
 import store from '../store';
 
@@ -10,9 +11,9 @@ function App({ Component, pageProps }) {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <AppRouterCacheProvider>
-          <div>
+          <Layout>
             <Component {...pageProps} />
-          </div>
+          </Layout>
         </AppRouterCacheProvider> 
       </QueryClientProvider>
     </Provider>

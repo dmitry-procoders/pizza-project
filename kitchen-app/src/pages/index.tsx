@@ -106,8 +106,8 @@ export default function Orders() {
   return (
     <main>
       <div>
-        <h1>Orders</h1>
-        <div style={{ height: 400, width: '100%' }}>
+        <h1>Orders ready for preparing</h1>
+        <div style={{ height: '80vh', minHeight: 400, width: '100%' }}>
         <DataGrid
           rows={data}
           columns={columns}

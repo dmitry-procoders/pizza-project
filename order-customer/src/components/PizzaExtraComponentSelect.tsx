@@ -41,20 +41,23 @@ const PizzaExtraComponentSelect: React.FC<PizzaExtraComponentSelectProps> = ({ o
 
 
   return (
-    <div>
-      {data.map((option: PizzaExtraOption) => (
-        <div key={option.id}>
-          <input
-            type="checkbox"
-            id={option.id}
-            value={option.id}
-            checked={selectedExtras.includes(option.id.toString())}
-            onChange={handleExtraChange}
-          />
-          <label htmlFor={option.id}>{option.value}</label>
-        </div>
-      ))}
-
+    <div className="flex flex-col space-y-2">
+      <label>Select Pizza Extra Components:</label>
+      <div className="flex space-x-12">
+        {data.map((option: PizzaExtraOption) => (
+          <div key={option.id}>
+            <input
+              type="checkbox"
+              id={option.id}
+              value={option.id}
+              checked={selectedExtras.includes(option.id.toString())}
+              onChange={handleExtraChange}
+            />
+            &nbsp;
+            <label htmlFor={option.id}>{option.value}</label>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

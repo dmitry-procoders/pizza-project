@@ -14,7 +14,7 @@ const CartComponent: React.FC = () => {
   const [name, setName] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
   const [address, setAddress] = useState<string>('');
-  const [orderConfirm, setOrderConfirm] = useState<any>();
+  const [orderConfirm, setOrderConfirm] = useState<Order>();
 
   const mutation = useMutation(placeOrder, {
     onSuccess: (orderData: Order) => {
@@ -65,7 +65,7 @@ const CartComponent: React.FC = () => {
           </ul>
         </div>
       ) }
-      { !orderConfirm && (
+      {!orderConfirm && (
         <div>
           <h1>Order Cart</h1>
           <ul>
