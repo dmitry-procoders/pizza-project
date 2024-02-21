@@ -74,7 +74,7 @@ Before getting started, ensure you have the following installed on your machine:
 
 The architecture of the pizza delivery service is designed to be both scalable and modular, catering to the specific functionalities required for efficient operation. This system architecture is structured around two main components: the front-end applications and the back-end API.
 
-![Pizza](images/SystemDesign.png "Architecture Overview")
+![Pizza](images/SystemArchitectureDesign.png "Architecture Overview")
 
 ### Front-End Applications
 
@@ -88,7 +88,7 @@ The system features two front-end applications, both developed using the React f
 
 The back-end functionality is handled by an API developed with the NestJS framework. NestJS is selected for its scalability, its use of TypeScript (enhancing code reliability and maintainability), and its efficient handling of asynchronous operations, which is crucial for real-time data processing in a delivery service. The API is designed with a modular structure, comprising the following key modules:
 
-- **Order Module**: Manages order placements, updates, and status tracking. It interfaces with the Pizza and Billing modules to process orders and handle payments.
+- **Order Module**: Manages order placements, updates, and status tracking. It interfaces with the Pizza and Delivery modules to process orders flow.
 
 - **Kitchen Module**: Oversees the preparation of orders, from dough preparation to baking. It communicates with the Order module to receive preparation requests and updates the order status accordingly.
 
@@ -96,7 +96,7 @@ The back-end functionality is handled by an API developed with the NestJS framew
 
 - **Delivery Module**: Handles the assignment of delivery personnel, tracking of deliveries, and status updates to ensure timely delivery to customers. It interacts with the Order module to fetch delivery details.
 
-- **Billing Module**: Manages payment processing, including invoice generation, payment tracking, and confirmation of payment status. It works closely with the Order module to secure order payments.
+- **OrderStateMachine**: Specific service in order module provides single interface for handling all order state transitions on all cycles from all possible modules (Order, Kitchen, Delivery phase).
 
 Each module in the NestJS API consists of controllers, services, and entities for the TypeORM database, facilitating a clear separation of concerns and enhancing the maintainability of the codebase. Controllers handle incoming requests and responses, services contain the business logic, and entities define the database models.
 
