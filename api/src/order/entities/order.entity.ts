@@ -26,7 +26,7 @@ export class OrderEntity {
   @Column({ length: 255 })
   address: string;
 
-  @Column()
+  @Column({ default: false })
   isBilledOnline: boolean;
 
   @CreateDateColumn({
@@ -36,7 +36,7 @@ export class OrderEntity {
   @Index()
   createdAt: Date;
 
-  @Column({ length: 50 })
+  @Column({ length: 50, default: OrderStatuses.Pending })
   status: OrderStatuses;
 
   @OneToMany(() => OrderItemEntity, (orderItem) => orderItem.order)

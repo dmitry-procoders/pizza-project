@@ -23,7 +23,6 @@ export default function Pizza() {
       throw new Error("Size and type are required to add a pizza to the order.");
       
     }
-    console.log();
     dispatch(addOrderItem(
       size, 
       type, 

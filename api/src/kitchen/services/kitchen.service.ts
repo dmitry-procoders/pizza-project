@@ -1,40 +1,46 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { KitchenEntity } from '../entities/kitchen.entity';
-import { KitchenStatuses } from '../constants/kitchen-statuses';
+import { OrderEntity } from 'src/order/entities/order.entity';
+import { OrderStateMachineService } from 'src/order/services/state-machine/order-state-machine-service';
+import { OrderStatuses } from 'src/order/constants/order-statuses';
+import { KitchenRepositoryService } from './kitchen-repository.service';
 
 @Injectable()
 export class KitchenService {
   constructor(
-    @InjectRepository(KitchenEntity)
-    private repository: Repository<KitchenEntity>,
+    private kitchenRepositoryService: KitchenRepositoryService,
+    private orderStateMachine: OrderStateMachineService,
   ) {}
 
   async getOrderOnKitchen(id: number): Promise<KitchenEntity> {
-    return await this.repository.findOneOrFail({
-      where: { id },
-    });
+    return await this.kitchenRepositoryService.getOrderOnKitchen(id);
+  }
+
+  async getKitchenRecordByOrder(id: number): Promise<KitchenEntity> {
+    return await this.kitchenRepositoryService.getKitchenRecordByOrder(id);
   }
 
   async getOrdersReadyForPreparing(): Promise<KitchenEntity[]> {
-    return await this.repository.find({
-      where: { status: KitchenStatuses.Pending },
-    });
+    return await this.kitchenRepositoryService.getOrdersReadyForPreparing();
+  }
+
+  async getPreparingOrders(): Promise<KitchenEntity[]> {
+    return await this.kitchenRepositoryService.getPreparingOrders();
   }
 
   async getOrdersReadyForPickUp(): Promise<KitchenEntity[]> {
-    return await this.repository.find({
-      where: { status: KitchenStatuses.Ready },
-    });
+    return await this.kitchenRepositoryService.getOrdersReadyForPickUp();
   }
 
   async prepareOrder(id: number): Promise<void> {
     const kitchenRecord = await this.getOrderOnKitchen(id);
-    if (kitchenRecord.status !== KitchenStatuses.Pending) {
-      throw new Error('Order must be in "Pending" status to be prepared');
-    }
-    kitchenRecord.status = KitchenStatuses.Preparing;
-    await this.repository.save(kitchenRecord);
+    const order = this.mapKitchenToOrder(kitchenRecord);
+    this.orderStateMachine.moveOrderToState(order, OrderStatuses.Preparing);
+  }
+
+  private mapKitchenToOrder(kitchen: KitchenEntity): OrderEntity {
+    const order = Object.assign({}, kitchen.order);
+    order.kitchen = kitchen;
+    return order;
   }
 }

@@ -4,8 +4,6 @@ import {
   IsString,
   MaxLength,
   IsNotEmpty,
-  IsObject,
-  IsArray,
 } from 'class-validator';
 
 export class CreateOrderDto {
@@ -24,18 +22,7 @@ export class CreateOrderDto {
   phone: string;
 
   @IsNotEmpty()
-  @IsObject()
-  pizzaSize: {
-    id: number;
-  };
-
-  @IsNotEmpty()
-  @IsObject()
-  pizzaType: {
-    id: number;
-  };
-
-  @IsOptional()
-  @IsArray()
-  pizzaExtraComponents;
+  @IsString()
+  @MaxLength(255)
+  address: string;
 }

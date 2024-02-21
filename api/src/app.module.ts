@@ -1,10 +1,11 @@
+import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ScheduleModule } from '@nestjs/schedule';
 import { BillingModule } from './billing/billing.module';
 import { DeliveryModule } from './delivery/delivery.module';
 import { KitchenModule } from './kitchen/kitchen.module';
 import { OrderModule } from './order/order.module';
-import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { PizzaModule } from './pizza/pizza.module';
 
 @Module({
@@ -15,6 +16,7 @@ import { PizzaModule } from './pizza/pizza.module';
     OrderModule,
     PizzaModule,
     ConfigModule.forRoot(),
+    ScheduleModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

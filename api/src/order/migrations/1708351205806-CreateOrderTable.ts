@@ -36,6 +36,7 @@ export class CreateOrderTable1708351205812 implements MigrationInterface {
           {
             name: 'isBilledOnline',
             type: 'boolean',
+            default: false,
           },
           {
             name: 'createdAt',

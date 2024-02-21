@@ -1,18 +1,22 @@
+import axios from 'axios';
+
 const baseUrl = 'http://localhost:3000';
 
 const getClientUrl = (path: string) => {
   return `${baseUrl}/${path}`;
 }
 
-const handleResponse = async (response: Response) => {
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-  return response.json();
+const handleResponse = async (response: any) => {
+  return response.data;
 }
 
 const getQuery = async (path: string) => {
-  const response = await fetch(getClientUrl(path));
+  const response = await axios.get(getClientUrl(path));
+  return handleResponse(response);
+}
+
+const postQuery = async (path: string, data: any) => {
+  const response = await axios.post(getClientUrl(path), data);
   return handleResponse(response);
 }
 
@@ -26,4 +30,8 @@ export const fetchTypesData = async () => {
 
 export const fetchExtraComponentsData = async () => {
   return getQuery('pizza-extra-component');
+};
+
+export const placeOrder = async (data: any) => {
+  return postQuery('order', data);
 };

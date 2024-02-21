@@ -27,13 +27,13 @@ export class OrderController {
     return await this.service.placeOrder(createOrderDto);
   }
 
-  @Patch('complete/:id')
-  async completeOrder(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    return await this.service.completeOrder(id);
-  }
+  // @Patch('complete/:id')
+  // async completeOrder(@Param('id', ParseIntPipe) id: number): Promise<void> {
+  //   return await this.service.completeOrder(id);
+  // }
 
-  @Patch('cancel/:id')
-  async cancelOrder(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    return await this.service.cancelOrder(id);
-  }
+  // @Patch('cancel/:id')
+  // async cancelOrder(@Param('id', ParseIntPipe) id: number): Promise<void> {
+  //   return await this.service.cancelOrder(id);
+  // }
 }
