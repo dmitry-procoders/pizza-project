@@ -26,7 +26,9 @@ export class DeliveryPickUpService {
 
   private mapDeliveryToOrder(deliveryRecord: DeliveryEntity): OrderEntity {
     const order = Object.assign({}, deliveryRecord.order);
+    order.kitchen = deliveryRecord.order.kitchen;
     order.delivery = deliveryRecord;
+    delete order.delivery.order;
     return order;
   }
 }

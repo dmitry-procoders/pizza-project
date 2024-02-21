@@ -6,9 +6,8 @@ import { Cron } from '@nestjs/schedule';
 export class OrderReviewJob {
   constructor(private orderReviewService: OrderReviewService) {}
 
-  @Cron('*/10 * * * * *')
+  @Cron('*/30 * * * * *')
   handleCron() {
-    console.log('Called when the current second is 10');
     this.orderReviewService.reviewPendingOrders();
   }
 }

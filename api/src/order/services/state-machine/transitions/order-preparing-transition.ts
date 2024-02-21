@@ -21,6 +21,6 @@ export class OrderPreparingTransition extends OrderBaseTransition {
       order,
       OrderStatuses.Preparing,
     );
-    await this.kitchenService.createKitchenRecord(order);
+    await this.kitchenService.markAsStartedPreparing(order.kitchen);
   }
 }

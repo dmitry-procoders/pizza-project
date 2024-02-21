@@ -25,7 +25,7 @@ export class DeliveryRepositoryService {
       where: {
         status: DeliveryStatuses.Pending,
       },
-      relations: ['order'],
+      relations: ['order', 'order.kitchen'],
     });
   }
 

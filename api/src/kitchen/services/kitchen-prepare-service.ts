@@ -15,6 +15,7 @@ export class KitchenPrepareService {
     for (const kitchenRecord of preparedOrders) {
       const order = Object.assign({}, kitchenRecord.order);
       order.kitchen = kitchenRecord;
+      console.log('preparedOrders: ', order);
       this.orderStateMachineService.moveOrderToState(
         order,
         OrderStatuses.ReadyForPickup,

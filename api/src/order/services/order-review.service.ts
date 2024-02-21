@@ -15,11 +15,8 @@ export class OrderReviewService {
     const pendingOrders = await this.orderRepositoryService.getPendingOrders();
     for (const order of pendingOrders) {
       // With probability 0.75, the order is confirmed, otherwise it is cancelled
-      // const status =
-      //   Math.random() < 0.75
-      //     ? OrderStatuses.Confirmed
-      //     : OrderStatuses.Cancelled;
-      const status = OrderStatuses.Confirmed;
+      const status =
+        Math.random() < 0.8 ? OrderStatuses.Confirmed : OrderStatuses.Cancelled;
       // Move the order to the new state
       await this.orderStateMachineService.moveOrderToState(order, status);
     }

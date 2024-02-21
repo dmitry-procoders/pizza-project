@@ -16,7 +16,8 @@ export class DeliveryCompletionService {
     const deliveringOrders = await this.deliveryService.getOrdersInDelivery();
     for (const deliveryRecord of deliveringOrders) {
       const order = this.mapDeliveryToOrder(deliveryRecord);
-      const status = OrderStatuses.Completed;
+      const status =
+        Math.random() < 0.9 ? OrderStatuses.Completed : OrderStatuses.Cancelled;
       this.orderStateMachineService.moveOrderToState(order, status);
     }
   }

@@ -9,9 +9,6 @@ export class OrderStateMachineService {
 
   async moveOrderToState(order: OrderEntity, state: OrderStatuses) {
     const handler = this.factoryService.getTransitionHandler(state);
-    console.log('handler: ', handler);
-    console.log('order: ', order);
-    console.log('state: ', state);
     handler.moveToFinalState(order);
   }
 }

@@ -41,6 +41,7 @@ export class KitchenService {
   private mapKitchenToOrder(kitchen: KitchenEntity): OrderEntity {
     const order = Object.assign({}, kitchen.order);
     order.kitchen = kitchen;
+    delete order.kitchen.order;
     return order;
   }
 }

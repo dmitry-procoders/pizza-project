@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:3000';
+const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+if (!baseUrl) {
+  throw new Error('NEXT_PUBLIC_API_BASE_URL is not defined');
+}
 
 const getClientUrl = (path: string) => {
   return `${baseUrl}/${path}`;
@@ -31,8 +34,6 @@ export const fetchOrdersPreparing = async () => {
 export const fetchOrdersReadyForPickUp = async () => {
   return getQuery('kitchen/ready-pick-up');
 };
-
-// ready-pick-up
 
 export const sendOrderForPrepare = async (id: number) => {
   return patchQuery(`kitchen/prepare/${id}`);

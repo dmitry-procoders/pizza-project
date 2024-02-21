@@ -6,8 +6,9 @@ import { Cron } from '@nestjs/schedule';
 export class KitchenPrepareJob {
   constructor(private kitchenPrepareService: KitchenPrepareService) {}
 
-  @Cron('*/10 * * * * *')
+  @Cron('0 */2 * * * *')
   handleCron() {
+    console.log('Looking for orders to prepare...');
     this.kitchenPrepareService.reviewPrepared();
   }
 }

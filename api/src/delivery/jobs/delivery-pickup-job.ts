@@ -6,8 +6,9 @@ import { DeliveryPickUpService } from '../services/delivery-pickup-service';
 export class DeliveryPickUpJob {
   constructor(private deliveryPickUpService: DeliveryPickUpService) {}
 
-  @Cron('*/10 * * * * *')
+  @Cron('0 */1 * * * *')
   handleCron() {
+    console.log('Looking for orders ready for deliver ...');
     this.deliveryPickUpService.reviewOrdersReadyForPickup();
   }
 }

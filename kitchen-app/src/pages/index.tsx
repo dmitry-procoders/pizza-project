@@ -20,7 +20,9 @@ export default function Orders() {
   const mutation = useMutation(sendOrderForPrepare, {
     onSuccess: () => {
       queryClient.invalidateQueries();
-      queryClient.refetchQueries();
+      setTimeout(() => {
+        queryClient.refetchQueries();
+      }, 300);
     },
     onError: (error) => {
       console.error('Order submit failed', error);

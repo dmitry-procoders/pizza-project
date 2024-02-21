@@ -6,8 +6,9 @@ import { DeliveryCompletionService } from '../services/delivery-completion-servi
 export class DeliveryCompletionJob {
   constructor(private deliveryCompletionService: DeliveryCompletionService) {}
 
-  @Cron('*/10 * * * * *')
+  @Cron('0 */2 * * * *')
   handleCron() {
+    console.log('Finishing orders delivering...');
     this.deliveryCompletionService.reviewDeliveringOrders();
   }
 }

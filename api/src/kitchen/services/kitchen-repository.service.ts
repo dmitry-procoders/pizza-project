@@ -64,7 +64,7 @@ export class KitchenRepositoryService {
         status: KitchenStatuses.Preparing,
         createdAt: LessThan(new Date(Date.now() - cookingTimeInMinutes)),
       },
-      relations: ['order', 'order.items'],
+      relations: ['order', 'order.items', 'order.delivery'],
     });
   }
 
@@ -98,7 +98,13 @@ export class KitchenRepositoryService {
 
   async markAsStartedPreparing(kitchen: KitchenEntity): Promise<KitchenEntity> {
     kitchen.status = KitchenStatuses.Preparing;
-    kitchen.finishedAt = new Date();
+    kitchen.createdAt = new Date();
     return await this.repository.save(kitchen);
+  }
+
+  async markAsTakenForDelivery(kitchen: KitchenEntity): Promise<void> {
+    await this.repository.update(kitchen.id, {
+      status: KitchenStatuses.TakenForDelivery,
+    });
   }
 }

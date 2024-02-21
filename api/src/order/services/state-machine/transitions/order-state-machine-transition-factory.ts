@@ -5,13 +5,14 @@ import { OrderCancelTransition } from './order-cancel-transition';
 import { OrderReadyForPickUpTransition } from './order-ready-for-pickup-transition';
 import { OrderDeliveringTransition } from './order-delivering-transition';
 import { OrderCompleteTransition } from './order-complete-transition';
+import { OrderPreparingTransition } from './order-preparing-transition';
 
 @Injectable()
 export class OrderStateMachineTransitionFactory {
   constructor(
     private confirmTransition: OrderConfirmTransition,
     private cancelTransition: OrderCancelTransition,
-    private preparingTransition: OrderConfirmTransition,
+    private preparingTransition: OrderPreparingTransition,
     private orderReadyForPickUpTransition: OrderReadyForPickUpTransition,
     private orderDeliveryTransition: OrderDeliveringTransition,
     private orderCompleteTransition: OrderCompleteTransition,
