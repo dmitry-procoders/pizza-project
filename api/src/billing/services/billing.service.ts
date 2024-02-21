@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { OrderService } from 'src/order/services/order.service';
+// import { OrderService } from 'src/order/services/order.service';
 import { OrderStatuses } from 'src/order/constants/order-statuses';
 import { BillingEntity } from '../entities/billing.entity';
 import { BillingStatuses } from '../constants/billing-statuses';
@@ -11,7 +11,7 @@ export class BillingService {
   constructor(
     @InjectRepository(BillingEntity)
     private repository: Repository<BillingEntity>,
-    private orderService: OrderService,
+    // private orderService: OrderService,
   ) {}
 
   async getBillingOrder(id: number): Promise<BillingEntity> {
@@ -34,6 +34,6 @@ export class BillingService {
       status: BillingStatuses.Paid,
       paidAt: new Date(),
     });
-    await this.orderService.confirmOrder(delivery.order.id);
+    // await this.orderService.confirmOrder(delivery.order.id);
   }
 }

@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { OrderEntity } from 'src/order/entities/order.entity';
+import { OrderItemEntity } from 'src/order/entities/order-item.entity';
 
 @Entity('pizza_extra_component')
 export class PizzaExtraComponentEntity {
@@ -18,6 +18,9 @@ export class PizzaExtraComponentEntity {
   @Column({ default: true })
   status: boolean;
 
-  @ManyToMany(() => OrderEntity, (order) => order.pizzaExtraComponents)
-  orders: OrderEntity[];
+  @ManyToMany(
+    () => OrderItemEntity,
+    (orderItem) => orderItem.pizzaExtraComponents,
+  )
+  orderItems: OrderItemEntity[];
 }

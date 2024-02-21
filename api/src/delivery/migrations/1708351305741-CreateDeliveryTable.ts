@@ -26,10 +26,14 @@ export class CreateDeliveryTable1708351305741 implements MigrationInterface {
           {
             name: 'createdAt',
             type: 'timestamp with time zone',
+            isNullable: true,
+            default: null,
           },
           {
             name: 'finishedAt',
             type: 'timestamp with time zone',
+            isNullable: true,
+            default: null,
           },
           {
             name: 'orderId',

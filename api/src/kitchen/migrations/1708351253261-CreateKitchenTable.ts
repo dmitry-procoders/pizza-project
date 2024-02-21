@@ -26,11 +26,14 @@ export class CreateKitchenTable1708351253261 implements MigrationInterface {
           {
             name: 'createdAt',
             type: 'timestamp with time zone',
-            default: 'NOW()',
+            isNullable: true,
+            default: null,
           },
           {
             name: 'finishedAt',
             type: 'timestamp with time zone',
+            isNullable: true,
+            default: null,
           },
           {
             name: 'orderId',

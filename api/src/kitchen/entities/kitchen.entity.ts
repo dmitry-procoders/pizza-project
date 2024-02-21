@@ -3,12 +3,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { KitchenStatuses } from '../constants/kitchen-statuses';
 
-@Entity()
+@Entity('kitchen')
 export class KitchenEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -25,6 +26,10 @@ export class KitchenEntity {
   @CreateDateColumn({ type: 'timestamp with time zone' })
   finishedAt: Date;
 
-  @OneToOne(() => OrderEntity, (order) => order.kitchen)
+  @OneToOne(() => OrderEntity, (order) => order.kitchen, { cascade: true })
+  @JoinColumn({
+    name: 'orderId',
+    referencedColumnName: 'id',
+  })
   order: OrderEntity;
 }

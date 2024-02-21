@@ -1,5 +1,11 @@
 import { OrderEntity } from 'src/order/entities/order.entity';
-import { Entity, PrimaryGeneratedColumn, OneToOne, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  Column,
+  JoinColumn,
+} from 'typeorm';
 import { DeliveryStatuses } from '../constants/delivery-statuses';
 
 @Entity('delivery')
@@ -20,6 +26,10 @@ export class DeliveryEntity {
   })
   finishedAt: Date;
 
-  @OneToOne(() => OrderEntity, (order) => order.delivery)
+  @OneToOne(() => OrderEntity, (order) => order.delivery, { cascade: true })
+  @JoinColumn({
+    name: 'orderId',
+    referencedColumnName: 'id',
+  })
   order: OrderEntity;
 }

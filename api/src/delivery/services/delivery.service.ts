@@ -1,45 +1,30 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { DeliveryEntity } from '../entities/delivery.entity';
-import { DeliveryStatuses } from '../constants/delivery-statuses';
-import { OrderService } from 'src/order/services/order.service';
 import { OrderStatuses } from 'src/order/constants/order-statuses';
+import { OrderStateMachineService } from 'src/order/services/state-machine/order-state-machine-service';
+import { DeliveryRepositoryService } from './delivery-repository.service';
 
 @Injectable()
 export class DeliveryService {
   constructor(
-    @InjectRepository(DeliveryEntity)
-    private repository: Repository<DeliveryEntity>,
-    private orderService: OrderService,
+    private deliveryRepositoryService: DeliveryRepositoryService,
+    private orderStateMachine: OrderStateMachineService,
   ) {}
 
   async getDeliveryOrder(id: number): Promise<DeliveryEntity> {
-    const delivery = await this.repository.findOneOrFail({
-      where: { id },
-      relations: ['order'],
-    });
-    if (delivery.order.status !== OrderStatuses.Delivery) {
-      throw new Error('Order is not in delivering status');
-    }
-    return delivery;
+    return await this.deliveryRepositoryService.getDeliveryOrder(id);
   }
 
   async getOrdersReadyForDelivery(): Promise<DeliveryEntity[]> {
-    return await this.repository.find({
-      where: { status: DeliveryStatuses.Pending },
-    });
+    return await this.deliveryRepositoryService.getOrdersReadyForDelivery();
   }
 
   async pickOrderForDelivery(id: number): Promise<void> {
     const delivery = await this.getDeliveryOrder(id);
-    if (delivery.status !== DeliveryStatuses.Pending) {
-      throw new Error('Delivery is not pending');
-    }
-    await this.repository.update(id, {
-      status: DeliveryStatuses.Delivering,
-      createdAt: new Date(),
-    });
+    await this.orderStateMachine.moveOrderToState(
+      delivery.order,
+      OrderStatuses.Delivery,
+    );
   }
 
   async completeOrder(
@@ -47,17 +32,6 @@ export class DeliveryService {
     status: OrderStatuses.Completed | OrderStatuses.Cancelled,
   ): Promise<void> {
     const delivery = await this.getDeliveryOrder(id);
-    if (delivery.status !== DeliveryStatuses.Delivering) {
-      throw new Error('Delivery is not in delivering status');
-    }
-    await this.repository.update(id, {
-      status: DeliveryStatuses.Delivering,
-      finishedAt: new Date(),
-    });
-    if (status === OrderStatuses.Completed) {
-      await this.orderService.completeOrder(delivery.order.id);
-    } else {
-      await this.orderService.cancelOrder(delivery.order.id);
-    }
+    await this.orderStateMachine.moveOrderToState(delivery.order, status);
   }
 }

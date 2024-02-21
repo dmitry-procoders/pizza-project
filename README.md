@@ -1,5 +1,75 @@
 # Pizza Delivery Service Architecture Overview
 
+
+# Project instalation
+
+These instructions will guide you through running an existing NestJS application on your local machine.
+
+## Prerequisites
+
+Before getting started, ensure you have the following installed on your machine:
+
+- [Node.js](https://nodejs.org) (including npm)
+- Git (if your project is version-controlled)
+
+## API
+
+1. **Navigate to the project directory**: Open your terminal or command prompt and change into the directory where your NestJS application is located. You can do this using the `cd` command followed by the path to your project directory. For example:
+   ```bash
+   cd api
+   ```
+
+2. **Install dependencies**: Once the dependencies are installed, you can start the NestJS application. Run:
+   ```bash
+   npm install
+   ```
+
+3. **Start the application**: If you haven't already done so, you need to install the project dependencies. This is typically done using npm (Node Package Manager). Run one of the following commands::
+   ```bash
+   
+   npm run build
+   npm run start
+   ```   
+
+## CUSTOMER-APP
+
+1. **Navigate to the project directory**: Open your terminal or command prompt and change into the directory where your NestJS application is located. You can do this using the `cd` command followed by the path to your project directory. For example:
+   ```bash
+   cd order-customer
+   ```
+
+2. **Install dependencies**: Once the dependencies are installed, you can start the NestJS application. Run:
+   ```bash
+   npm install
+   ```
+
+3. **Start the application**: If you haven't already done so, you need to install the project dependencies. This is typically done using npm (Node Package Manager). Run one of the following commands::
+   ```bash
+   
+   npm run build
+   npm run start
+   ```      
+
+## KITCHEN-APP
+
+1. **Navigate to the project directory**: Open your terminal or command prompt and change into the directory where your NestJS application is located. You can do this using the `cd` command followed by the path to your project directory. For example:
+   ```bash
+   cd kitchen-app
+   ```
+
+2. **Install dependencies**: Once the dependencies are installed, you can start the NestJS application. Run:
+   ```bash
+   npm install
+   ```
+
+3. **Start the application**: If you haven't already done so, you need to install the project dependencies. This is typically done using npm (Node Package Manager). Run one of the following commands::
+   ```bash
+   
+   npm run build
+   npm run start
+   ```         
+
+
 ## Architecture Overview
 
 The architecture of the pizza delivery service is designed to be both scalable and modular, catering to the specific functionalities required for efficient operation. This system architecture is structured around two main components: the front-end applications and the back-end API.
@@ -40,13 +110,11 @@ The state machine for a pizza delivery service can be described through a series
 
 - **Pending**: This is the initial state of an order when it is first received. At this point, the order has been placed but not yet paid for online. The system awaits payment initiation from the customer.
 
-- **Awaiting Billing**: If the customer chooses not to pay online immediately, the order transitions to this state. The system is waiting for the customer to complete the payment. This state underscores the necessity for timely payment to proceed with the order preparation.
-
 - **Cancelled**: An order moves to this state under two conditions:
-  - If the customer does not complete the payment within 30 minutes of the order being placed and being in the "Awaiting Billing" state.
+  - If manager declined order after conversation with customer.
   - If the customer refuses to accept the order upon delivery, indicating a rejection of the transaction or delivery issues.
 
-- **Confirmed**: Once the customer completes the payment within the specified 30-minute window, the order status is updated to "Confirmed." This state indicates that the payment has been successfully processed, and the order is officially accepted for preparation.
+- **Confirmed**: Once the manager confirmed pending order with customer it moves to "Confirmed." This state indicates that the order is officially accepted for preparation.
 
 - **Preparing**: Following confirmation, the order enters the "Preparing" state, where the pizza is being made. This includes all steps of preparation, from dough stretching to topping application and baking.
 

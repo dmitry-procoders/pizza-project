@@ -1,24 +1,13 @@
-import { Controller } from '@nestjs/common';
-import { Crud, CrudController } from '@nestjsx/crud';
-import { PizzaExtraComponentEntity } from '../entities/pizza-extra-component.entity';
+import { Controller, Get } from '@nestjs/common';
 import { PizzaExtraComponentService } from '../services/pizza-extra-component.service';
-import { CreatePizzaExtraComponentDto } from './../dto/extra-component/create-pizza-extra-component.dto';
-import { UpdatePizzaExtraComponentDto } from '../dto/extra-component/update-pizza-extra-component.dto';
-import { ReplacePizzaExtraComponentDto } from '../dto/extra-component/replace-pizza-extra-component.dto';
+import { PizzaExtraComponentEntity } from '../entities/pizza-extra-component.entity';
 
-@Crud({
-  model: {
-    type: PizzaExtraComponentEntity,
-  },
-  dto: {
-    create: CreatePizzaExtraComponentDto,
-    update: UpdatePizzaExtraComponentDto,
-    replace: ReplacePizzaExtraComponentDto,
-  },
-})
 @Controller('pizza-extra-component')
-export class PizzaExtraComponentController
-  implements CrudController<PizzaExtraComponentEntity>
-{
+export class PizzaExtraComponentController {
   constructor(public service: PizzaExtraComponentService) {}
+
+  @Get()
+  async getList(): Promise<PizzaExtraComponentEntity[]> {
+    return await this.service.getList();
+  }
 }

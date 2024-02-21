@@ -11,6 +11,11 @@ export class KitchenController {
     return await this.service.getOrdersReadyForPreparing();
   }
 
+  @Get('preparing')
+  async getOrdersPreparing(): Promise<KitchenEntity[]> {
+    return await this.service.getOrdersInPreparingState();
+  }
+
   @Get('ready-pick-up')
   async getOrdersReadyForPickUp(): Promise<KitchenEntity[]> {
     return await this.service.getOrdersReadyForPickUp();
