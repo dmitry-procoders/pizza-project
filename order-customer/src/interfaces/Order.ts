@@ -1,5 +1,9 @@
-import { Cart } from "./Cart";
+import { OrderItem } from "./OrderItem";
 
-export interface Order extends Cart {
+export interface Order {
   id: number;
+  name: string;
+  phone: string;
+  address: string;
+  items: OrderItem[];
 }

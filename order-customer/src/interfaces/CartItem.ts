@@ -1,6 +1,6 @@
 import { PizzaExtraComponent } from './PizzaExtraComponent';
 import { PizzaType } from './PizzaType';
-import { PizzaSize } from "./PizzaSize";
+import { PizzaSize } from './PizzaSize';
 
 export interface CartItem {
   pizzaSize: PizzaSize;

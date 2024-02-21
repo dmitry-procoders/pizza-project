@@ -5,25 +5,18 @@ import { useMutation } from 'react-query';
 import { placeOrder } from '@/plugins/api-client';
 import { clearCart } from '@/store/actions';
 import { Order } from '@/interfaces/Order';
+import OrderItemsList from '@/components/OrderItemsList';
+import CustomerForm from '@/components/CustomerForm';
 
 const CartComponent: React.FC = () => {
 
   const dispatch = useDispatch();
   const cartItems: CartItem[] = useSelector((state: any) => state.cartItems);
-
-  const [name, setName] = useState<string>('');
-  const [phone, setPhone] = useState<string>('');
-  const [address, setAddress] = useState<string>('');
   const [orderConfirm, setOrderConfirm] = useState<Order>();
 
   const mutation = useMutation(placeOrder, {
     onSuccess: (orderData: Order) => {
       setOrderConfirm(orderData);
-      // Clear form
-      setName('');
-      setPhone('');
-      setAddress('');
-      // Clear cart
       dispatch(clearCart());
     },
     onError: (error) => {
@@ -31,8 +24,7 @@ const CartComponent: React.FC = () => {
     },
   });
 
-  const handleFormSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleFormSubmit = (name: string, phone: string, address: string) => {
     const orderData = {
       name,
       phone,
@@ -40,55 +32,31 @@ const CartComponent: React.FC = () => {
       items: cartItems,
     };
     mutation.mutate(orderData);
-    
-    // Handle form submission logic here
+
   };
 
   return (
-    <div>
-      { orderConfirm && (
-        <div>
-          <h1>Order Items</h1>
-          <p>Your order saved: {orderConfirm.id}</p>
-          <div>
-            <p>Name: {orderConfirm.name}</p>
-            <p>Phone: {orderConfirm.phone}</p>
-            <p>Address: {orderConfirm.address}</p>
+    <div className="flex flex-col items-center space-y-4 text-center">
+      {orderConfirm && (
+        <>
+          <div className="p-4">
+            <h1 className="pb-4">Order Items</h1>
+            <p>Your order crated: {orderConfirm.id}. Our managers will contact you as soon order will be processed.</p>
+            <div className="mt-4">
+              <p className="text-left"><b>Name:</b> {orderConfirm.name}</p>
+              <p className="text-left"><b>Phone:</b> {orderConfirm.phone}</p>
+              <p className="text-left"><b>Address:</b> {orderConfirm.address}</p>
+            </div>
+            <OrderItemsList items={orderConfirm.items} />
           </div>
-          <ul>
-            {orderConfirm.items.map((item: CartItem, index: number) => (
-              <li key={index}>
-                <span>Size: {item.pizzaSize.value}</span>&nbsp;
-                <span>Type: {item.pizzaType.value}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) }
+      </>)}
       {!orderConfirm && (
         <div>
           <h1>Order Cart</h1>
-          <ul>
-            {cartItems.map((item: CartItem, index: number) => (
-              <li key={index}>
-                <span>Size: {item.pizzaSize.value}</span>&nbsp;
-                <span>Type: {item.pizzaType.value}</span>
-              </li>
-            ))}
-          </ul>
-          <form onSubmit={handleFormSubmit}>
-            <label htmlFor="name">Name:</label>
-            <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} />
-
-            <label htmlFor="phone">Phone:</label>
-            <input type="text" id="phone" name="phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
-
-            <label htmlFor="address">Address:</label>
-            <input type="text" id="address" name="address" value={address} onChange={(e) => setAddress(e.target.value)} />
-
-            <button type="submit" disabled={!name || !phone || !address}>Submit</button>
-          </form>
-          {cartItems.length === 0 && <p>No items in the cart</p>}
+          <OrderItemsList items={cartItems} />
+          {cartItems.length > 0 && (
+            <CustomerForm onFormSubmit={handleFormSubmit} />
+          )}
         </div>
       )}
     </div>

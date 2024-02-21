@@ -23,12 +23,12 @@ export default function Component({children}: {children: React.ReactNode}) {
               >
                 Cart
               </Link>
-              <Link
+              {/* <Link
                 className="font-medium underline underline-offset-2 hover:text-gray-900 dark:hover:text-gray-50"
                 href="/order"
               >
                 Order status
-              </Link>
+              </Link> */}
             </div>
           </nav>
         </div>
