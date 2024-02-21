@@ -35,6 +35,26 @@ export class KitchenRepositoryService {
   async getOrdersReadyForPreparing(): Promise<KitchenEntity[]> {
     return await this.repository.find({
       where: { status: KitchenStatuses.Pending },
+      relations: [
+        'order',
+        'order.items',
+        'order.items.pizzaSize',
+        'order.items.pizzaType',
+        'order.items.pizzaExtraComponents',
+      ],
+    });
+  }
+
+  async getOrdersInPreparingState(): Promise<KitchenEntity[]> { 
+    return await this.repository.find({
+      where: { status: KitchenStatuses.Preparing },
+      relations: [
+        'order',
+        'order.items',
+        'order.items.pizzaSize',
+        'order.items.pizzaType',
+        'order.items.pizzaExtraComponents',
+      ],
     });
   }
 
@@ -44,14 +64,20 @@ export class KitchenRepositoryService {
         status: KitchenStatuses.Preparing,
         createdAt: LessThan(new Date(Date.now() - cookingTimeInMinutes)),
       },
-      relations: ['order'],
+      relations: ['order', 'order.items'],
     });
   }
 
   async getOrdersReadyForPickUp(): Promise<KitchenEntity[]> {
     return await this.repository.find({
       where: { status: KitchenStatuses.Ready },
-      relations: ['order'],
+      relations: [
+        'order',
+        'order.items',
+        'order.items.pizzaSize',
+        'order.items.pizzaType',
+        'order.items.pizzaExtraComponents',
+      ],
     });
   }
 

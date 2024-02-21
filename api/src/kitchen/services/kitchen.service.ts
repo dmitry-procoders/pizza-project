@@ -24,8 +24,8 @@ export class KitchenService {
     return await this.kitchenRepositoryService.getOrdersReadyForPreparing();
   }
 
-  async getPreparingOrders(): Promise<KitchenEntity[]> {
-    return await this.kitchenRepositoryService.getPreparingOrders();
+  async getOrdersInPreparingState(): Promise<KitchenEntity[]> {
+    return await this.kitchenRepositoryService.getOrdersInPreparingState();
   }
 
   async getOrdersReadyForPickUp(): Promise<KitchenEntity[]> {

@@ -39,7 +39,9 @@ export class OrderEntity {
   @Column({ length: 50, default: OrderStatuses.Pending })
   status: OrderStatuses;
 
-  @OneToMany(() => OrderItemEntity, (orderItem) => orderItem.order)
+  @OneToMany(() => OrderItemEntity, (orderItem) => orderItem.order, {
+    cascade: true,
+  })
   items: OrderItemEntity[];
 
   @OneToOne(() => KitchenEntity, (kitchen) => kitchen.order)

@@ -1,12 +1,12 @@
-import { KitchenService } from 'src/kitchen/services/kitchen.service';
 import { Injectable } from '@nestjs/common';
 import { OrderStateMachineService } from 'src/order/services/state-machine/order-state-machine-service';
 import { OrderStatuses } from 'src/order/constants/order-statuses';
+import { KitchenRepositoryService } from './kitchen-repository.service';
 
 @Injectable()
 export class KitchenPrepareService {
   constructor(
-    private kitchenService: KitchenService,
+    private kitchenService: KitchenRepositoryService,
     private orderStateMachineService: OrderStateMachineService,
   ) {}
 

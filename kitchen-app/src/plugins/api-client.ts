@@ -15,8 +15,8 @@ const getQuery = async (path: string) => {
   return handleResponse(response);
 }
 
-const postQuery = async (path: string, data: any) => {
-  const response = await axios.post(getClientUrl(path), data);
+const patchQuery = async (path: string, data = {}) => {
+  const response = await axios.patch(getClientUrl(path), data);
   return handleResponse(response);
 }
 
@@ -24,18 +24,16 @@ export const fetchOrdersReadyForPrepare = async () => {
   return getQuery('kitchen/ready-preparing');
 };
 
-export const fetchSizesData = async () => {
-  return getQuery('pizza-size');
+export const fetchOrdersPreparing = async () => {
+  return getQuery('kitchen/preparing');
 };
 
-export const fetchTypesData = async () => {
-  return getQuery('pizza-type');
+export const fetchOrdersReadyForPickUp = async () => {
+  return getQuery('kitchen/ready-pick-up');
 };
 
-export const fetchExtraComponentsData = async () => {
-  return getQuery('pizza-extra-component');
-};
+// ready-pick-up
 
-export const placeOrder = async (data: any) => {
-  return postQuery('order', data);
+export const sendOrderForPrepare = async (id: number) => {
+  return patchQuery(`kitchen/prepare/${id}`);
 };
