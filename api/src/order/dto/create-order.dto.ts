@@ -4,7 +4,9 @@ import {
   IsString,
   MaxLength,
   IsNotEmpty,
+  IsArray,
 } from 'class-validator';
+import { CreateOrderItemDto } from './create-order-item.dto';
 
 export class CreateOrderDto {
   @IsOptional()
@@ -25,4 +27,8 @@ export class CreateOrderDto {
   @IsString()
   @MaxLength(255)
   address: string;
+
+  @IsArray()
+  @IsNotEmpty()
+  items: CreateOrderItemDto[];
 }
