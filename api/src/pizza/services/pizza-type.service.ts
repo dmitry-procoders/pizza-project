@@ -10,6 +10,10 @@ export class PizzaTypeService {
     private repository: Repository<PizzaTypeEntity>,
   ) {}
 
+  /**
+   * Retrieves a list of all pizza types.
+   * @returns {Promise<PizzaTypeEntity[]>} A promise that resolves to an array of PizzaTypeEntity objects.
+   */
   async getList(): Promise<PizzaTypeEntity[]> {
     return await this.repository.find();
   }

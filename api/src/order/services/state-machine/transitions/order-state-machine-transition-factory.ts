@@ -7,6 +7,10 @@ import { OrderDeliveringTransition } from './order-delivering-transition';
 import { OrderCompleteTransition } from './order-complete-transition';
 import { OrderPreparingTransition } from './order-preparing-transition';
 
+/**
+ * Factory class for creating order state machine transitions.
+ * This class is responsible for initializing various order state transitions.
+ */
 @Injectable()
 export class OrderStateMachineTransitionFactory {
   constructor(
@@ -18,6 +22,12 @@ export class OrderStateMachineTransitionFactory {
     private orderCompleteTransition: OrderCompleteTransition,
   ) {}
 
+  /**
+   * Retrieves the appropriate transition handler based on the provided final order status.
+   * @param {OrderStatuses} finalStatus - The final status of the order for which the transition handler is needed.
+   * @returns {Function} The transition handler function corresponding to the provided final status.
+   * @throws {Error} If no transition handler is found for the provided final status.
+   */
   getTransitionHandler(finalStatus: OrderStatuses) {
     switch (finalStatus) {
       case OrderStatuses.Confirmed:
@@ -33,7 +43,9 @@ export class OrderStateMachineTransitionFactory {
       case OrderStatuses.Completed:
         return this.orderCompleteTransition;
       default:
-        return null;
+        throw new Error(
+          `Transition handler for status ${finalStatus} not found`,
+        );
     }
   }
 }

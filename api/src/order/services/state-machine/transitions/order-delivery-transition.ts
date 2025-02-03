@@ -16,6 +16,11 @@ export class OrderDeliveryTransition extends OrderBaseTransition {
 
   validInitialStates = [OrderStatuses.ReadyForPickup];
 
+  /**
+   * Moves the given order to its final state by performing the necessary delivery and status update operations.
+   * @param {OrderEntity} order - The order entity to be moved to the final state.
+   * @returns {Promise<void>} A promise that resolves when the order has been successfully moved to the final state.
+   */
   async moveToFinalState(order: OrderEntity) {
     await this.deliveryService.pickOrderForDelivery(order.delivery);
     await this.orderRepositoryService.updateOrderStatus(
